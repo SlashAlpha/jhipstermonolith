@@ -1,0 +1,42 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "slash.process.meapp",
+      "nativeLanguage": "en"
+    },
+    "jhipsterVersion": "6.8.0",
+    "applicationType": "microservice",
+    "baseName": "meApp",
+    "packageName": "slash.process.meapp",
+    "packageFolder": "slash/process/meapp",
+    "serverPort": "8088",
+    "authenticationType": "oauth2",
+    "cacheProvider": "no",
+    "enableHibernateCache": false,
+    "websocket": false,
+    "databaseType": "couchbase",
+    "devDatabaseType": "couchbase",
+    "prodDatabaseType": "couchbase",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "YTg1ZmM1ZGVjYjZkNjMyNjFlNzc1ZTE2YzJmYTE5NGI3MTk0OWQ2NWJlOGI3ZGIzOWI3ZDdmM2E1NmRkODlmOWU4ZWQ5MDljOWJkNzdmMDQ1YTRlMDdiMWNiMjlkNGNmOGJiOTAzNjQyOTgyZDhiNjE4MmVmNDhjMDkwZDk3ZTQ=",
+    "embeddableLaunchScript": false,
+    "creationTimestamp": 1585147521504,
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": true,
+    "clientPackageManager": "npm",
+    "nativeLanguage": "en",
+    "languages": ["en"],
+    "blueprints": [],
+    "reactive": true,
+    "skipClient": true,
+    "skipUserManagement": true
+  }
+}
