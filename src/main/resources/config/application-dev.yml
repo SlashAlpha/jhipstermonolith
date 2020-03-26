@@ -19,6 +19,14 @@ logging:
     io.github.jhipster: DEBUG
     slash.process.meapp: DEBUG
 
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    enabled: false # By default, the JHipster Registry is not used in the "dev" profile
+    service-url:
+      defaultZone: http://admin:${jhipster.registry.password}@localhost:8761/eureka/
+
 spring:
   profiles:
     active: dev
@@ -29,17 +37,34 @@ spring:
   devtools:
     restart:
       enabled: true
-      additional-exclude: static/**
+      additional-exclude: static/**,.h2.server.properties
     livereload:
       enabled: false # we use Webpack dev server + BrowserSync for livereload
   jackson:
     serialization:
       indent-output: true
-  couchbase:
-    bootstrap-hosts: localhost
-    bucket:
-      name: meApp
-      password: password
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:h2:file:./target/h2db/db/meapp;DB_CLOSE_DELAY=-1
+    username: meApp
+    password:
+    hikari:
+      poolName: Hikari
+      auto-commit: false
+  h2:
+    console:
+      enabled: false
+  jpa:
+    show-sql: true
+    properties:
+      hibernate.id.new_generator_mappings: true
+      hibernate.connection.provider_disables_autocommit: true
+      hibernate.cache.use_second_level_cache: true
+      hibernate.cache.use_query_cache: false
+      hibernate.generate_statistics: false
+  liquibase:
+    # Remove 'faker' if you do not want the sample data to be loaded automatically
+    contexts: dev, faker
   mail:
     host: localhost
     port: 25
@@ -60,7 +85,7 @@ spring:
         enabled: true
 
 server:
-  port: 8088
+  port: 8080
 
 # ===================================================================
 # JHipster specific properties
@@ -69,17 +94,28 @@ server:
 # ===================================================================
 
 jhipster:
-  # CORS is disabled by default on microservices, as you should access them through a gateway.
-  # If you want to enable it, please uncomment the configuration below.
-  # cors:
-  #     allowed-origins: "*"
-  #     allowed-methods: "*"
-  #     allowed-headers: "*"
-  #     exposed-headers: "Authorization,Link,X-Total-Count"
-  #     allow-credentials: true
-  #     max-age: 1800
+  cache: # Cache configuration
+    ehcache: # Ehcache configuration
+      time-to-live-seconds: 3600 # By default objects stay 1 hour in the cache
+      max-entries: 100 # Number of objects in each cache entry
+  # CORS is only enabled by default with the "dev" profile, so BrowserSync can access the API
+  cors:
+    allowed-origins: '*'
+    allowed-methods: '*'
+    allowed-headers: '*'
+    exposed-headers: 'Authorization,Link,X-Total-Count'
+    allow-credentials: true
+    max-age: 1800
+  security:
+    authentication:
+      jwt:
+        # This token must be encoded using Base64 and be at least 256 bits long (you can type `openssl rand -base64 64` on your command line to generate a 512 bits one)
+        base64-secret: OTFhY2RhMWEyYjU1MTBkOTBlZTY1MTZiNzVkY2ExOTE1MWJiZjAyOGYyMjFiNTQxNDZmMDk5YmNmZGJkNTk1YTFiZTllNTYyZWU1MGQxOGU2NzExOGYwZjBkNjhiNDE2ZGI4N2RhNzZjYmJkYjE2YTZjY2Y4ZWI2ZDA1NDE4M2M=
+        # Token is valid 24 hours
+        token-validity-in-seconds: 86400
+        token-validity-in-seconds-for-remember-me: 2592000
   mail: # specific JHipster mail property, for standard properties see MailProperties
-    base-url: http://127.0.0.1:8088
+    base-url: http://127.0.0.1:8080
   metrics:
     logs: # Reports metrics in the logs
       enabled: false

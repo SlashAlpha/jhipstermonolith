@@ -1,54 +1,49 @@
 package slash.process.meapp.domain;
 
-import org.springframework.data.annotation.Id;
-import com.couchbase.client.java.repository.annotation.Field;
-import org.springframework.data.couchbase.core.mapping.Document;
-import org.springframework.data.couchbase.core.mapping.id.GeneratedValue;
-import org.springframework.data.couchbase.core.mapping.id.IdPrefix;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
-import static slash.process.meapp.config.Constants.ID_DELIMITER;
-import static org.springframework.data.couchbase.core.mapping.id.GenerationStrategy.UNIQUE;
-
 /**
  * Persist AuditEvent managed by the Spring Boot actuator.
  *
  * @see org.springframework.boot.actuate.audit.AuditEvent
  */
-@Document
+@Entity
+@Table(name = "jhi_persistent_audit_event")
 public class PersistentAuditEvent implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String PREFIX = "audit";
-
-    @IdPrefix
-    private String prefix = PREFIX;
-
     @Id
-    @GeneratedValue(strategy = UNIQUE, delimiter = ID_DELIMITER)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "event_id")
+    private Long id;
 
     @NotNull
+    @Column(nullable = false)
     private String principal;
 
-    @Field("event_date")
+    @Column(name = "event_date")
     private Instant auditEventDate;
 
-    @Field("event_type")
+    @Column(name = "event_type")
     private String auditEventType;
 
+    @ElementCollection
+    @MapKeyColumn(name = "name")
+    @Column(name = "value")
+    @CollectionTable(name = "jhi_persistent_audit_evt_data", joinColumns=@JoinColumn(name="event_id"))
     private Map<String, String> data = new HashMap<>();
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

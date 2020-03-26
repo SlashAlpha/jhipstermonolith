@@ -2,31 +2,50 @@ package slash.process.meapp.repository;
 
 import slash.process.meapp.domain.User;
 
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
+import java.util.List;
+import java.util.Optional;
 import java.time.Instant;
 
-import static slash.process.meapp.config.Constants.ID_DELIMITER;
-
 /**
- * Spring Data Couchbase repository for the {@link User} entity.
+ * Spring Data JPA repository for the {@link User} entity.
  */
 @Repository
-public interface UserRepository extends ReactiveN1qlCouchbaseRepository<User, String> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
-    Mono<User> findOneByEmailIgnoreCase(String email);
+    String USERS_BY_LOGIN_CACHE = "usersByLogin";
 
-    default Mono<User> findOneByLogin(String login) {
-        return findById(User.PREFIX + ID_DELIMITER + login);
-    }
+    String USERS_BY_EMAIL_CACHE = "usersByEmail";
+
+    Optional<User> findOneByActivationKey(String activationKey);
+
+    List<User> findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(Instant dateTime);
+
+    Optional<User> findOneByResetKey(String resetKey);
+
+    Optional<User> findOneByEmailIgnoreCase(String email);
+
+    Optional<User> findOneByLogin(String login);
 
 
 
-    Flux<User> findAllByLoginNot(Pageable pageable, String login);
+    @EntityGraph(attributePaths = "authorities")
+    Optional<User> findOneWithAuthoritiesById(Long id);
 
-    Mono<Long> countAllByLoginNot(String anonymousUser);
+    @EntityGraph(attributePaths = "authorities")
+    @Cacheable(cacheNames = USERS_BY_LOGIN_CACHE)
+    Optional<User> findOneWithAuthoritiesByLogin(String login);
+
+    @EntityGraph(attributePaths = "authorities")
+    @Cacheable(cacheNames = USERS_BY_EMAIL_CACHE)
+    Optional<User> findOneWithAuthoritiesByEmailIgnoreCase(String email);
+
+    Page<User> findAllByLoginNot(Pageable pageable, String login);
 }

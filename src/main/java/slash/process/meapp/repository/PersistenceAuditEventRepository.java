@@ -1,24 +1,23 @@
 package slash.process.meapp.repository;
 
 import slash.process.meapp.domain.PersistentAuditEvent;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.Instant;
+import java.util.List;
 
 /**
- * Spring Data Couchbase repository for the {@link PersistentAuditEvent} entity.
+ * Spring Data JPA repository for the {@link PersistentAuditEvent} entity.
  */
-public interface PersistenceAuditEventRepository extends ReactiveN1qlCouchbaseRepository<PersistentAuditEvent, String> {
+public interface PersistenceAuditEventRepository extends JpaRepository<PersistentAuditEvent, Long> {
 
-    Flux<PersistentAuditEvent> findByPrincipal(String principal);
+    List<PersistentAuditEvent> findByPrincipal(String principal);
 
-    Flux<PersistentAuditEvent> findAllByAuditEventDateBetween(Instant fromDate, Instant toDate, Pageable pageable);
+    List<PersistentAuditEvent> findByPrincipalAndAuditEventDateAfterAndAuditEventType(String principal, Instant after, String type);
 
-    Flux<PersistentAuditEvent> findByAuditEventDateBefore(Instant before);
+    Page<PersistentAuditEvent> findAllByAuditEventDateBetween(Instant fromDate, Instant toDate, Pageable pageable);
 
-    Flux<PersistentAuditEvent> findAllBy(Pageable pageable);
-
-    Mono<Long> countByAuditEventDateBetween(Instant fromDate, Instant toDate);
+    List<PersistentAuditEvent> findByAuditEventDateBefore(Instant before);
 }

@@ -1,5 +1,6 @@
 package slash.process.meapp.service.mapper;
 
+import slash.process.meapp.domain.Authority;
 import slash.process.meapp.domain.User;
 import slash.process.meapp.service.dto.UserDTO;
 
@@ -48,26 +49,28 @@ public class UserMapper {
             user.setImageUrl(userDTO.getImageUrl());
             user.setActivated(userDTO.isActivated());
             user.setLangKey(userDTO.getLangKey());
-            Set<String> authorities = this.cleanNullStringAuthorities(userDTO.getAuthorities());
+            Set<Authority> authorities = this.authoritiesFromStrings(userDTO.getAuthorities());
             user.setAuthorities(authorities);
             return user;
         }
     }
 
 
-    private Set<String> cleanNullStringAuthorities(Set<String> authoritiesAsString) {
-        Set<String> authorities = new HashSet<>();
+    private Set<Authority> authoritiesFromStrings(Set<String> authoritiesAsString) {
+        Set<Authority> authorities = new HashSet<>();
 
         if (authoritiesAsString != null) {
-            authorities = authoritiesAsString.stream()
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
+            authorities = authoritiesAsString.stream().map(string -> {
+                Authority auth = new Authority();
+                auth.setName(string);
+                return auth;
+            }).collect(Collectors.toSet());
         }
 
         return authorities;
     }
 
-    public User userFromId(String id) {
+    public User userFromId(Long id) {
         if (id == null) {
             return null;
         }

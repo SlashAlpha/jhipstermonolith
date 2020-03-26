@@ -2,6 +2,7 @@ package slash.process.meapp.service.mapper;
 
 import slash.process.meapp.domain.User;
 import slash.process.meapp.service.dto.UserDTO;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class UserMapperTest {
 
     private static final String DEFAULT_LOGIN = "johndoe";
-    private static final String DEFAULT_ID = User.PREFIX + DEFAULT_LOGIN;
+    private static final Long DEFAULT_ID = 1L;
 
     private UserMapper userMapper;
     private User user;
@@ -29,6 +30,7 @@ public class UserMapperTest {
         userMapper = new UserMapper();
         user = new User();
         user.setLogin(DEFAULT_LOGIN);
+        user.setPassword(RandomStringUtils.random(60));
         user.setActivated(true);
         user.setEmail("johndoe@localhost");
         user.setFirstName("john");
@@ -78,7 +80,7 @@ public class UserMapperTest {
         assertThat(users).size().isEqualTo(1);
         assertThat(users.get(0).getAuthorities()).isNotNull();
         assertThat(users.get(0).getAuthorities()).isNotEmpty();
-        assertThat(users.get(0).getAuthorities().iterator().next()).isEqualTo("ADMIN");
+        assertThat(users.get(0).getAuthorities().iterator().next().getName()).isEqualTo("ADMIN");
     }
 
     @Test
@@ -107,7 +109,7 @@ public class UserMapperTest {
         assertThat(user).isNotNull();
         assertThat(user.getAuthorities()).isNotNull();
         assertThat(user.getAuthorities()).isNotEmpty();
-        assertThat(user.getAuthorities().iterator().next()).isEqualTo("ADMIN");
+        assertThat(user.getAuthorities().iterator().next().getName()).isEqualTo("ADMIN");
     }
 
     @Test

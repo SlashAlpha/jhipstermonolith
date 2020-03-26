@@ -2,8 +2,10 @@ package slash.process.meapp.repository;
 
 import slash.process.meapp.domain.Authority;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+
 /**
- * Spring Data Couchbase repository for the {@link Authority} entity.
+ * Spring Data JPA repository for the {@link Authority} entity.
  */
-public interface AuthorityRepository extends ReactiveN1qlCouchbaseRepository<Authority, String> {
+public interface AuthorityRepository extends JpaRepository<Authority, String> {
 }
