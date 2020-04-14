@@ -1,0 +1,80 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="subTask">
+            <h2><span jhiTranslate="meApp.subTask.detail.title">Sub Task</span> {{ subTask.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="meApp.subTask.title">Title</span></dt>
+                <dd>
+                    <span>{{ subTask.title }}</span>
+                </dd>
+                <dt><span jhiTranslate="meApp.subTask.description">Description</span></dt>
+                <dd>
+                    <span>{{ subTask.description }}</span>
+                </dd>
+                <dt><span jhiTranslate="meApp.subTask.duration">Duration</span></dt>
+                <dd>
+                    <span>{{ subTask.duration }}</span>
+                </dd>
+                <dt><span jhiTranslate="meApp.subTask.cost">Cost</span></dt>
+                <dd>
+                    <span>{{ subTask.cost }}</span>
+                </dd>
+                <dt><span jhiTranslate="meApp.subTask.budget">Budget</span></dt>
+                <dd>
+                    <span>{{ subTask.budget }}</span>
+                </dd>
+                <dt><span jhiTranslate="meApp.subTask.started">Started</span></dt>
+                <dd>
+                    <span>{{ subTask.started }}</span>
+                </dd>
+                <dt><span jhiTranslate="meApp.subTask.difficulty">Difficulty</span></dt>
+                <dd>
+                    <span>{{ subTask.difficulty }}</span>
+                </dd>
+                <dt><span jhiTranslate="meApp.subTask.startDate">Start Date</span></dt>
+                <dd>
+                    <span>{{ subTask.startDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="meApp.subTask.deadline">Deadline</span></dt>
+                <dd>
+                    <span>{{ subTask.deadline }}</span>
+                </dd>
+                <dt><span jhiTranslate="meApp.subTask.contact">Contact</span></dt>
+                <dd>
+                    <span>{{ subTask.contact }}</span>
+                </dd>
+                <dt><span jhiTranslate="meApp.subTask.document">Document</span></dt>
+                <dd>
+                    <div *ngIf="subTask.document">
+                        <a (click)="openFile(subTask?.documentContentType!, subTask?.document)"
+                           jhiTranslate="entity.action.open">open</a>
+                        {{ subTask.documentContentType }}, {{ byteSize(subTask.document) }}
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="meApp.subTask.task">Task</span></dt>
+                <dd>
+                    <div *ngIf="subTask.task">
+                        <a [routerLink]="['/task', subTask.task?.id, 'view']">{{ subTask.task?.id }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button (click)="previousState()"
+                    class="btn btn-info"
+                    type="submit">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button [routerLink]="['/sub-task', subTask.id, 'edit']"
+                    class="btn btn-primary"
+                    type="button">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

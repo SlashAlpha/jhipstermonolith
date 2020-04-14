@@ -1,0 +1,33 @@
+{
+  "meApp": {
+    "subTask": {
+      "home": {
+        "title": "SubTasks",
+        "createLabel": "Créer un nouveau Sub Task",
+        "createOrEditLabel": "Créer ou éditer un Sub Task",
+        "notFound": "Aucun Sub Task trouvé"
+      },
+      "created": "Un nouveau Sub Task a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Sub Task avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Sub Task avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Etes-vous certain de vouloir supprimer le Sub Task {{ id }} ?"
+      },
+      "detail": {
+        "title": "Sub Task"
+      },
+      "title": "Title",
+      "description": "Description",
+      "duration": "Duration",
+      "cost": "Cost",
+      "budget": "Budget",
+      "started": "Started",
+      "difficulty": "Difficulty",
+      "startDate": "Start Date",
+      "deadline": "Deadline",
+      "contact": "Contact",
+      "document": "Document",
+      "task": "Task"
+    }
+  }
+}

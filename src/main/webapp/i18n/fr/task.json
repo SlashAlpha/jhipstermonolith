@@ -1,0 +1,34 @@
+{
+  "meApp": {
+    "task": {
+      "home": {
+        "title": "Tasks",
+        "createLabel": "Créer un nouveau Task",
+        "createOrEditLabel": "Créer ou éditer un Task",
+        "notFound": "Aucun Task trouvé"
+      },
+      "created": "Un nouveau Task a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Task avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Task avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Etes-vous certain de vouloir supprimer le Task {{ id }} ?"
+      },
+      "detail": {
+        "title": "Task"
+      },
+      "title": "Title",
+      "description": "Description",
+      "duration": "Duration",
+      "cost": "Cost",
+      "budget": "Budget",
+      "started": "Started",
+      "difficulty": "Difficulty",
+      "startDate": "Start Date",
+      "deadline": "Deadline",
+      "contact": "Contact",
+      "document": "Document",
+      "subTask": "Sub Task",
+      "project": "Project"
+    }
+  }
+}

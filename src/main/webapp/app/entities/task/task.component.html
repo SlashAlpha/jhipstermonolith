@@ -1,0 +1,92 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="meApp.task.home.title">Tasks</span>
+
+        <button [routerLink]="['/task/new']" class="btn btn-primary float-right jh-create-entity create-task"
+                id="jh-create-entity">
+            <fa-icon icon="plus"></fa-icon>
+            <span jhiTranslate="meApp.task.home.createLabel">
+            Create a new Task
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div *ngIf="tasks?.length === 0" class="alert alert-warning" id="no-result">
+        <span jhiTranslate="meApp.task.home.notFound">No tasks found</span>
+    </div>
+
+    <div *ngIf="tasks?.length > 0" class="table-responsive" id="entities">
+        <table aria-describedby="page-heading" class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+                <th scope="col"><span jhiTranslate="meApp.task.title">Title</span></th>
+                <th scope="col"><span jhiTranslate="meApp.task.description">Description</span></th>
+                <th scope="col"><span jhiTranslate="meApp.task.duration">Duration</span></th>
+                <th scope="col"><span jhiTranslate="meApp.task.cost">Cost</span></th>
+                <th scope="col"><span jhiTranslate="meApp.task.budget">Budget</span></th>
+                <th scope="col"><span jhiTranslate="meApp.task.started">Started</span></th>
+                <th scope="col"><span jhiTranslate="meApp.task.difficulty">Difficulty</span></th>
+                <th scope="col"><span jhiTranslate="meApp.task.startDate">Start Date</span></th>
+                <th scope="col"><span jhiTranslate="meApp.task.deadline">Deadline</span></th>
+                <th scope="col"><span jhiTranslate="meApp.task.contact">Contact</span></th>
+                <th scope="col"><span jhiTranslate="meApp.task.document">Document</span></th>
+                <th scope="col"><span jhiTranslate="meApp.task.project">Project</span></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let task of tasks ;trackBy: trackId">
+                <td><a [routerLink]="['/task', task.id, 'view']">{{ task.id }}</a></td>
+                <td>{{ task.title }}</td>
+                <td>{{ task.description }}</td>
+                <td>{{ task.duration }}</td>
+                <td>{{ task.cost }}</td>
+                <td>{{ task.budget }}</td>
+                <td>{{ task.started }}</td>
+                <td>{{ task.difficulty }}</td>
+                <td>{{ task.startDate | date:'mediumDate' }}</td>
+                <td>{{ task.deadline | date:'mediumDate' }}</td>
+                <td>{{ task.contact }}</td>
+                <td>
+                    <a (click)="openFile(task.documentContentType, task.document)" *ngIf="task.document"
+                       jhiTranslate="entity.action.open">open</a>
+                    <span *ngIf="task.document">{{ task.documentContentType }}, {{ byteSize(task.document) }}</span>
+                </td>
+                <td>
+                    <div *ngIf="task.project">
+                        <a [routerLink]="['/project', task.project?.id, 'view']">{{ task.project?.id }}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button [routerLink]="['/task', task.id, 'view']"
+                                class="btn btn-info btn-sm"
+                                type="submit">
+                            <fa-icon icon="eye"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+
+                        <button [routerLink]="['/task', task.id, 'edit']"
+                                class="btn btn-primary btn-sm"
+                                type="submit">
+                            <fa-icon icon="pencil-alt"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+
+                        <button (click)="delete(task)" class="btn btn-danger btn-sm"
+                                type="submit">
+                            <fa-icon icon="times"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

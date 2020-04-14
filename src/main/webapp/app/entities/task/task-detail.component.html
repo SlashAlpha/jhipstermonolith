@@ -1,0 +1,80 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="task">
+            <h2><span jhiTranslate="meApp.task.detail.title">Task</span> {{ task.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="meApp.task.title">Title</span></dt>
+                <dd>
+                    <span>{{ task.title }}</span>
+                </dd>
+                <dt><span jhiTranslate="meApp.task.description">Description</span></dt>
+                <dd>
+                    <span>{{ task.description }}</span>
+                </dd>
+                <dt><span jhiTranslate="meApp.task.duration">Duration</span></dt>
+                <dd>
+                    <span>{{ task.duration }}</span>
+                </dd>
+                <dt><span jhiTranslate="meApp.task.cost">Cost</span></dt>
+                <dd>
+                    <span>{{ task.cost }}</span>
+                </dd>
+                <dt><span jhiTranslate="meApp.task.budget">Budget</span></dt>
+                <dd>
+                    <span>{{ task.budget }}</span>
+                </dd>
+                <dt><span jhiTranslate="meApp.task.started">Started</span></dt>
+                <dd>
+                    <span>{{ task.started }}</span>
+                </dd>
+                <dt><span jhiTranslate="meApp.task.difficulty">Difficulty</span></dt>
+                <dd>
+                    <span>{{ task.difficulty }}</span>
+                </dd>
+                <dt><span jhiTranslate="meApp.task.startDate">Start Date</span></dt>
+                <dd>
+                    <span>{{ task.startDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="meApp.task.deadline">Deadline</span></dt>
+                <dd>
+                    <span>{{ task.deadline }}</span>
+                </dd>
+                <dt><span jhiTranslate="meApp.task.contact">Contact</span></dt>
+                <dd>
+                    <span>{{ task.contact }}</span>
+                </dd>
+                <dt><span jhiTranslate="meApp.task.document">Document</span></dt>
+                <dd>
+                    <div *ngIf="task.document">
+                        <a (click)="openFile(task?.documentContentType!, task?.document)"
+                           jhiTranslate="entity.action.open">open</a>
+                        {{ task.documentContentType }}, {{ byteSize(task.document) }}
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="meApp.task.project">Project</span></dt>
+                <dd>
+                    <div *ngIf="task.project">
+                        <a [routerLink]="['/project', task.project?.id, 'view']">{{ task.project?.id }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button (click)="previousState()"
+                    class="btn btn-info"
+                    type="submit">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button [routerLink]="['/task', task.id, 'edit']"
+                    class="btn btn-primary"
+                    type="button">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

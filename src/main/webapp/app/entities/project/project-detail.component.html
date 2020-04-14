@@ -1,0 +1,73 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="project">
+            <h2><span jhiTranslate="meApp.project.detail.title">Project</span> {{ project.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="meApp.project.name">Name</span></dt>
+                <dd>
+                    <span>{{ project.name }}</span>
+                </dd>
+                <dt><span jhiTranslate="meApp.project.user">User</span></dt>
+                <dd>
+                    {{ project.user?.login }}
+                </dd>
+            </dl>
+
+            <button (click)="previousState()"
+                    class="btn btn-info"
+                    type="submit">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button [routerLink]="['/project', project.id, 'edit']"
+                    class="btn btn-primary"
+                    type="button">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+
+
+    <div class="table-responsive" id="entities">
+        <table aria-describedby="page-heading" class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col"><span jhiTranslate="global.field.id">ID </span></th>
+                <th scope="col"><span jhiTranslate="meApp.task.title">Title</span></th>
+                <th scope="col"><span jhiTranslate="meApp.task.description">Description</span></th>
+                <th scope="col"><span jhiTranslate="meApp.task.duration">Duration</span></th>
+                <th scope="col"><span jhiTranslate="meApp.task.cost">Cost</span></th>
+                <th scope="col"><span jhiTranslate="meApp.task.budget">Budget</span></th>
+                <th scope="col"><span jhiTranslate="meApp.task.started">Started</span></th>
+                <th scope="col"><span jhiTranslate="meApp.task.difficulty">Difficulty</span></th>
+                <th scope="col"><span jhiTranslate="meApp.task.startDate">Start Date</span></th>
+                <th scope="col"><span jhiTranslate="meApp.task.deadline">Deadline</span></th>
+                <th scope="col"><span jhiTranslate="meApp.task.contact">Contact</span></th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let task of project?.tasks ;">
+                <td>{{ task.id }}</td>
+                <td>{{ task.title }}</td>
+                <td>{{ task.description }}</td>
+                <td>{{ task.duration }}</td>
+                <td>{{ task.cost }}</td>
+                <td>{{ task.budget }}</td>
+                <td>{{ task.started }}</td>
+                <td>{{ task.difficulty }}</td>
+                <td>{{ task.startDate | date:'mediumDate' }}</td>
+                <td>{{ task.deadline | date:'mediumDate' }}</td>
+                <td>{{ task.contact }}</td>
+
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

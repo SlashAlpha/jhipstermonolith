@@ -1,0 +1,60 @@
+entity Project {
+	name String
+    
+}
+
+entity Task {
+	title String,
+    description String,
+    duration Duration,
+    cost Long,
+    budget Long,
+    started Boolean,
+    difficulty String,
+    startDate LocalDate,
+    deadline LocalDate,
+    contact String,
+    document Blob,
+    
+    
+}
+entity SubTask{
+	title String,
+    description String,
+    duration Duration,
+    cost Long,
+    budget Long,
+    started Boolean,
+    difficulty String,
+    startDate LocalDate,
+    deadline LocalDate,
+    contact String,
+	document Blob,
+}
+
+
+
+
+
+
+
+
+
+relationship OneToMany{
+Project to Task
+}
+relationship OneToMany{
+Task to SubTask
+}
+
+
+
+
+// defining multiple OneToMany relationships with comments
+
+
+// Set pagination options
+
+
+// Set an angular suffix
+// angularSuffix * with mySuffix

@@ -1,0 +1,140 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form (ngSubmit)="save()" [formGroup]="editForm" name="editForm" novalidate role="form">
+            <h2 id="jhi-task-heading" jhiTranslate="meApp.task.home.createOrEditLabel">Create or edit a Task</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div [hidden]="!editForm.get('id')!.value" class="form-group">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input class="form-control" formControlName="id" id="id" name="id" readonly type="text"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_title" jhiTranslate="meApp.task.title">Title</label>
+                    <input class="form-control" formControlName="title" id="field_title" name="title"
+                           type="text"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_description" jhiTranslate="meApp.task.description">Description</label>
+                    <input class="form-control" formControlName="description" id="field_description" name="description"
+                           type="text"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_duration"
+                           jhiTranslate="meApp.task.duration">Duration</label>
+                    <input class="form-control" formControlName="duration" id="field_duration" name="duration"
+                           type="number"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_cost" jhiTranslate="meApp.task.cost">Cost</label>
+                    <input class="form-control" formControlName="cost" id="field_cost" name="cost"
+                           type="number"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_budget" jhiTranslate="meApp.task.budget">Budget</label>
+                    <input class="form-control" formControlName="budget" id="field_budget" name="budget"
+                           type="number"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_started"
+                           jhiTranslate="meApp.task.started">Started</label>
+                    <input class="form-control" formControlName="started" id="field_started" name="started"
+                           type="checkbox"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_difficulty" jhiTranslate="meApp.task.difficulty">Difficulty</label>
+                    <input class="form-control" formControlName="difficulty" id="field_difficulty" name="difficulty"
+                           type="text"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_startDate" jhiTranslate="meApp.task.startDate">Start
+                        Date</label>
+                    <div class="input-group">
+                        <input #startDateDp="ngbDatepicker" class="form-control" formControlName="startDate"
+                               id="field_startDate" name="startDate" ngbDatepicker type="text"/>
+                        <span class="input-group-append">
+                            <button (click)="startDateDp.toggle()" class="btn btn-secondary" type="button"><fa-icon
+                                icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_deadline"
+                           jhiTranslate="meApp.task.deadline">Deadline</label>
+                    <div class="input-group">
+                        <input #deadlineDp="ngbDatepicker" class="form-control" formControlName="deadline"
+                               id="field_deadline" name="deadline" ngbDatepicker type="text"/>
+                        <span class="input-group-append">
+                            <button (click)="deadlineDp.toggle()" class="btn btn-secondary" type="button"><fa-icon
+                                icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_contact"
+                           jhiTranslate="meApp.task.contact">Contact</label>
+                    <input class="form-control" formControlName="contact" id="field_contact" name="contact"
+                           type="text"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_document"
+                           jhiTranslate="meApp.task.document">Document</label>
+                    <div>
+                        <div *ngIf="editForm.get('document')!.value" class="form-text text-danger clearfix">
+                            <a (click)="openFile(editForm.get('documentContentType')!.value, editForm.get('document')!.value)"
+                               class="pull-left" jhiTranslate="entity.action.open">open</a><br>
+                            <span class="pull-left">{{ editForm.get('documentContentType')!.value }}
+                                , {{ byteSize(editForm.get('document')!.value) }}</span>
+                            <button
+                                (click)="editForm.patchValue({document: null});editForm.patchValue({documentContentType: null});"
+                                class="btn btn-secondary btn-xs pull-right"
+                                type="button">
+                                <fa-icon icon="times"></fa-icon>
+                            </button>
+                        </div>
+                        <input (change)="setFileData($event, 'document', false)" id="file_document"
+                               jhiTranslate="entity.action.addblob" type="file"/>
+                    </div>
+                    <input class="form-control" formControlName="document" id="field_document" name="document"
+                           type="hidden"/>
+                    <input class="form-control" formControlName="documentContentType" id="field_documentContentType"
+                           name="documentContentType"
+                           type="hidden"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_project"
+                           jhiTranslate="meApp.task.project">Project</label>
+                    <select class="form-control" formControlName="project" id="field_project" name="project">
+                        <option [ngValue]="null"></option>
+                        <option *ngFor="let projectOption of projects; trackBy: trackById"
+                                [ngValue]="projectOption.id === editForm.get('project')!.value?.id ? editForm.get('project')!.value : projectOption">{{ projectOption.id }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button (click)="previousState()" class="btn btn-secondary" id="cancel-save" type="button">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+
+                <button [disabled]="editForm.invalid || isSaving" class="btn btn-primary" id="save-entity"
+                        type="submit">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

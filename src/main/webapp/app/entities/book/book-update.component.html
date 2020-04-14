@@ -1,0 +1,45 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form (ngSubmit)="save()" [formGroup]="editForm" name="editForm" novalidate role="form">
+            <h2 id="jhi-book-heading" jhiTranslate="meApp.book.home.createOrEditLabel">Create or edit a Book</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div [hidden]="!editForm.get('id')!.value" class="form-group">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input class="form-control" formControlName="id" id="id" name="id" readonly type="text"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_titleetitle" jhiTranslate="meApp.book.titleetitle">Titleetitle</label>
+                    <input class="form-control" formControlName="titleetitle" id="field_titleetitle" name="titleetitle"
+                           type="number"/>
+                    <div
+                        *ngIf="editForm.get('titleetitle')!.invalid && (editForm.get('titleetitle')!.dirty || editForm.get('titleetitle')!.touched)">
+                        <small *ngIf="editForm.get('titleetitle')?.errors?.min"
+                               [translateValues]="{ min: 2 }" class="form-text text-danger"
+                               jhiTranslate="entity.validation.min">
+                            This field should be at least 2.
+                        </small>
+                        <small [hidden]="!editForm.get('titleetitle')?.errors?.number"
+                               class="form-text text-danger" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button (click)="previousState()" class="btn btn-secondary" id="cancel-save" type="button">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+
+                <button [disabled]="editForm.invalid || isSaving" class="btn btn-primary" id="save-entity"
+                        type="submit">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

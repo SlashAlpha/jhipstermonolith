@@ -1,0 +1,93 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="meApp.subTask.home.title">Sub Tasks</span>
+
+        <button [routerLink]="['/sub-task/new']" class="btn btn-primary float-right jh-create-entity create-sub-task"
+                id="jh-create-entity">
+            <fa-icon icon="plus"></fa-icon>
+            <span jhiTranslate="meApp.subTask.home.createLabel">
+            Create a new Sub Task
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div *ngIf="subTasks?.length === 0" class="alert alert-warning" id="no-result">
+        <span jhiTranslate="meApp.subTask.home.notFound">No subTasks found</span>
+    </div>
+
+    <div *ngIf="subTasks?.length > 0" class="table-responsive" id="entities">
+        <table aria-describedby="page-heading" class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+                <th scope="col"><span jhiTranslate="meApp.subTask.title">Title</span></th>
+                <th scope="col"><span jhiTranslate="meApp.subTask.description">Description</span></th>
+                <th scope="col"><span jhiTranslate="meApp.subTask.duration">Duration</span></th>
+                <th scope="col"><span jhiTranslate="meApp.subTask.cost">Cost</span></th>
+                <th scope="col"><span jhiTranslate="meApp.subTask.budget">Budget</span></th>
+                <th scope="col"><span jhiTranslate="meApp.subTask.started">Started</span></th>
+                <th scope="col"><span jhiTranslate="meApp.subTask.difficulty">Difficulty</span></th>
+                <th scope="col"><span jhiTranslate="meApp.subTask.startDate">Start Date</span></th>
+                <th scope="col"><span jhiTranslate="meApp.subTask.deadline">Deadline</span></th>
+                <th scope="col"><span jhiTranslate="meApp.subTask.contact">Contact</span></th>
+                <th scope="col"><span jhiTranslate="meApp.subTask.document">Document</span></th>
+                <th scope="col"><span jhiTranslate="meApp.subTask.task">Task</span></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let subTask of subTasks ;trackBy: trackId">
+                <td><a [routerLink]="['/sub-task', subTask.id, 'view']">{{ subTask.id }}</a></td>
+                <td>{{ subTask.title }}</td>
+                <td>{{ subTask.description }}</td>
+                <td>{{ subTask.duration }}</td>
+                <td>{{ subTask.cost }}</td>
+                <td>{{ subTask.budget }}</td>
+                <td>{{ subTask.started }}</td>
+                <td>{{ subTask.difficulty }}</td>
+                <td>{{ subTask.startDate | date:'mediumDate' }}</td>
+                <td>{{ subTask.deadline | date:'mediumDate' }}</td>
+                <td>{{ subTask.contact }}</td>
+                <td>
+                    <a (click)="openFile(subTask.documentContentType, subTask.document)" *ngIf="subTask.document"
+                       jhiTranslate="entity.action.open">open</a>
+                    <span *ngIf="subTask.document">{{ subTask.documentContentType }}
+                        , {{ byteSize(subTask.document) }}</span>
+                </td>
+                <td>
+                    <div *ngIf="subTask.task">
+                        <a [routerLink]="['/task', subTask.task?.id, 'view']">{{ subTask.task?.id }}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button [routerLink]="['/sub-task', subTask.id, 'view']"
+                                class="btn btn-info btn-sm"
+                                type="submit">
+                            <fa-icon icon="eye"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+
+                        <button [routerLink]="['/sub-task', subTask.id, 'edit']"
+                                class="btn btn-primary btn-sm"
+                                type="submit">
+                            <fa-icon icon="pencil-alt"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+
+                        <button (click)="delete(subTask)" class="btn btn-danger btn-sm"
+                                type="submit">
+                            <fa-icon icon="times"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
